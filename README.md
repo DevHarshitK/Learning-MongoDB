@@ -132,3 +132,49 @@
     3. Deleting the entire database
 
         drop db-name;
+
+# Mongoose
+
+    It is a npm package that creates a connection between MongoDB and Node js
+
+    It is an ODM(Object Data Modeling)
+
+## Using Mongoose
+
+    1. First of all, we need to require it
+
+    2. We need to connect to our database using:
+
+        mongoose.connect(`mongodb://127.0.0.1:27017/${database}`);
+
+        This returns a promise,which is a asynchronus inorder to efficiently connect to our database, we must use "await" method so that we connect first before performing any operations.
+        We can use the following code:
+
+        main()
+        .then(()=>{
+            console.log("connected");
+        })
+        .catch((err)=>{
+            console.log("failed");
+        });
+
+        async function main() {
+            await mongoose.connect('mongodb://127.0.0.1:27017/db-name');
+        }
+
+## Schema
+
+    Structure of the data which can be stored.
+
+    Inorder to define the schema we can use:
+
+    const schema = new mongoose.Schema({
+        name:String,
+        email:String,
+        age:Number
+    });
+
+    We can have nested Schemas.
+    Example:
+    comments: [{ body: String, date: Date }]
+    date: { type: Date, default: Date.now }
