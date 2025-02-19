@@ -178,3 +178,150 @@
     Example:
     comments: [{ body: String, date: Date }]
     date: { type: Date, default: Date.now }
+
+## Models
+
+    It is special class in Mongoose with which we construct documents.
+
+    const User = mongoose.model("User",userSchema);
+
+    User is a model now, we need to create objects of this model inorder to insert them into the db
+
+    This creates a collection in db, with name "users"
+
+    More Examples: Product => products
+
+## Inserting into the collection
+
+    1. Inserting one document at a time
+
+    const model-prototype = new model-name({all the data to be filled in the schema});
+
+    Inorder to save this, we need to use
+    model-prototype.save()
+        .then((res)=>{
+            callback
+        })
+        .catch((err)=>{
+            callback
+        });
+
+    2. Inserting multiple documents at once
+
+    model-name.insertMany([array of model-prototypes])
+        .then((res)=>{
+            callback
+        })
+        .catch((err)=>{
+            callback
+        });
+
+## Operation buffering
+
+    Mongoose allows us to use our models before establishing connection to MongoDB.
+    That is why we are not writing the code in the then block after the connection is being established.
+
+## Finding in Mongoose
+
+    Model.find() => returns a Query Object with which we can use .then() method
+
+    Example:
+    User.find()
+    .then((res)=>{
+        for(let p of res){
+            console.log(p.name);
+        }
+    })
+    .catch((err)=>{
+        console.log(err);
+    });
+
+    Model.find(filter) => returns a Query Object containing objects that staisfy the given condition with which we can use .then() method 
+
+
+    Model.findOne(filter) => returns only one object
+
+    Model.findById(only id as a string) => returns the object based on the id.
+
+## Updating documents
+
+    Model.updateOne(filter, update):
+        We can use then and catch methods
+        We do not use $set method, we directly provide the new updated value
+
+        Example: User.updateOne({age:18},{age:20});
+
+    Model.updateMany(filter, update):
+        This is also a thennable object.
+        This updates all the documents which satisfy the given condition
+
+    
+    The above two methods return meta data after updation but if we need the new updated document then we need to
+
+    Model.findOneAndUpdate(filter,updated value);
+        This returns the old document before the update.
+        If we want the updated document, we need to set the value of new to true by default. Its false.
+        It can be done passing a third parameter.
+        This method is also thennable.
+
+        Example: Model.findOneAndUpdate({name:"Ram"},{age:18},{new:true});
+    
+    There are more methods like this like 
+    Model.findByIdAndUpdate()
+
+## Deleting Documents
+
+    All these given methods are thennable.
+
+    Model.deleteOne(filter); ==> Deletes one document
+
+    Model.deleteMany(filter); ==> Deletes many items
+
+    You can also use:
+
+    Model.findByIdAndDelete(filter);
+
+    Model.findOneAndDelete(filter);
+
+## Schema Validations
+
+    Rules for schema
+
+    We can pass the set of rules as objects to the respective fields
+
+    Example:
+
+    const userSchema = mongoose.Schema({
+        name:{
+            type:String,
+            required:true,
+            maxLength: 50
+        },
+        age:{
+            type:Number,
+            default: 18
+        },
+        email:{
+            type:String
+        }
+    })
+
+## Validation while updating
+
+    By default validations do not work on the update methods
+    Inorder to do proper validation we must pass a third parameter/object to our update methods.
+
+    Model.findByIdAndUpdate(id,{update here}{runValidators:true})
+
+    We can have custom error messages to our Validations.
+    By passing message along with the value to the parameter as an array
+
+    Example:
+    name:{
+            type:String,
+            required:true,
+            maxLength: [50,"Too Large"]
+        }
+
+    We can get more details through our err in catch block by
+    err.errors.field-name.properties.message
