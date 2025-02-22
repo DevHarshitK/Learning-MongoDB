@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include("includes/theme.ejs") %>
+    <title>New Chat!</title>
+</head>
+<body>
+    <%- include("includes/goback.ejs") %>
+    <form action="/chats/new" method="post">
+        <input type="text" name="Sender" placeholder="Enter Sender's name" /> <br>
+        <input type="text" name="Receiver" placeholder="Enter Recipent's name" /> <br>
+        <textarea name="message" placeholder="Enter your message" rows="15"></textarea>
+        <br>
+        <button>Submit</button>
+    </form>
+</body>
+</html>

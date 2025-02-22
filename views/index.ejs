@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include("includes/theme.ejs") %>
+<title>Messaging App</title>
+<body>
+    <h3>All Chats</h3>
+    <hr>
+    <a href="/chats/new">
+        <button class="btn btn-primary newChat">New Chat</button>
+    </a>
+    <% for(let chat of data){ %>
+        <div class="chat">
+            <p>From: <%= chat.from %></p>
+            <p>To: <%= chat.to %></p>
+            <p>Message: <%= chat.message %></p>
+            <!-- <p>Send At: <%= chat.created_at %></p> -->
+        </div>
+    <% } %>
+</body>
+</html>

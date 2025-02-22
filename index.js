@@ -27,6 +27,37 @@ app.listen(port,()=>{
 });
 
 app.get("/",(req,res)=>{
-    res.send("Working");
-})
+    res.redirect("/chats");
+});
 
+app.get("/chats",async (req,res)=>{
+    let data= await Chat.find();
+    if(data){
+        res.render("index.ejs",{data});
+    }
+    else{
+        res.send("Sorry! We don't have data");
+    }
+});
+
+app.get("/chats/new",(req,res)=>{
+    res.render("new.ejs");
+});
+
+app.post("/chats/new", (req,res)=>{
+    let data = req.body;
+    let newChat = new Chat({
+        from:req.body.Sender,
+        to:req.body.Receiver,
+        message:req.body.message,
+        created_at:new Date()
+    });
+    newChat.save()
+    .then(result => {
+        console.log(result);
+        res.redirect("/");
+    })
+    .catch(err =>{
+        res.render("error.ejs",{err})
+    });
+});
