@@ -13,7 +13,21 @@
             <p>From: <%= chat.from %></p>
             <p>To: <%= chat.to %></p>
             <p>Message: <%= chat.message %></p>
-            <!-- <p>Send At: <%= chat.created_at %></p> -->
+            <p>Send At:
+                <br>
+                <%= chat.created_at.toString().split(" ")[4] %> 
+                <br>
+                <%= chat.created_at.toString().split(" ").splice(0,4).join(" ") %>
+                <br> 
+            </p>
+            <a href="/chats/edit">
+                <button class="btn">
+                    Edit
+                </button>
+            </a>
+            <form method="post" action="/chats/delete/<%= chat._id%>?_method=DELETE">
+                <button class="btn">Delete</button>
+            </form>
         </div>
     <% } %>
 </body>

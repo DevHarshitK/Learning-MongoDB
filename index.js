@@ -4,12 +4,16 @@ const mongoose = require("mongoose");
 const path = require("path");
 const port = 5001;
 const Chat = require("./models/chats")
+const methodOverride = require("method-override");
+const { console } = require("inspector");
 
 app.use(express.urlencoded({extended:true}));
 app.use(express.json());
 app.set("views",path.join(__dirname,"views"));
 app.use(express.static(path.join(__dirname, "public")));
 app.set("view engine","ejs");
+app.use(methodOverride("_method"));
+
 
 async function main(){
     await mongoose.connect("mongodb://127.0.0.1:27017/whatsapp");
@@ -45,7 +49,6 @@ app.get("/chats/new",(req,res)=>{
 });
 
 app.post("/chats/new", (req,res)=>{
-    let data = req.body;
     let newChat = new Chat({
         from:req.body.Sender,
         to:req.body.Receiver,
@@ -54,10 +57,22 @@ app.post("/chats/new", (req,res)=>{
     });
     newChat.save()
     .then(result => {
-        console.log(result);
+        console.log("New chat saved!");
         res.redirect("/");
     })
     .catch(err =>{
         res.render("error.ejs",{err})
     });
 });
+
+app.delete("/chats/delete/:id",(req,res)=>{
+    Chat.findByIdAndDelete(req.params.id)
+    .then(result => {
+        console.log("A chat deleted");
+        console.log(result);
+        res.redirect("/")
+    })
+    .catch(err => {
+        res.render("error.ejs",{err});
+    })
+})
