@@ -76,3 +76,26 @@ app.delete("/chats/delete/:id",(req,res)=>{
         res.render("error.ejs",{err});
     })
 })
+
+app.get("/chats/edit/:id",(req,res)=>{
+    Chat.findById(req.params.id)
+    .then(chat => {
+        res.render("edit.ejs",{chat});
+    })
+    .catch(err => {
+        res.render("error.ejs",{err})
+    })
+});
+
+app.put("/chats/edit/:id",(req,res)=>{
+    console.log(req.params);
+    console.log(req.body.message);
+    Chat.findByIdAndUpdate(req.params.id,{message:req.body.message},{runValidators: true, new:true})
+    .then(result => {
+        console.log(result);
+        res.redirect("/");
+    })
+    .catch(err =>{
+        res.render("error.ejs",{err});
+    });
+});

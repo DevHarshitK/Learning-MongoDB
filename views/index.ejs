@@ -20,11 +20,11 @@
                 <%= chat.created_at.toString().split(" ").splice(0,4).join(" ") %>
                 <br> 
             </p>
-            <a href="/chats/edit">
+            <form action="/chats/edit/<%= chat._id %>" style="margin: 4px;">
                 <button class="btn">
                     Edit
                 </button>
-            </a>
+            </form>
             <form method="post" action="/chats/delete/<%= chat._id%>?_method=DELETE">
                 <button class="btn">Delete</button>
             </form>
