@@ -325,3 +325,38 @@
 
     We can get more details through our err in catch block by
     err.errors.field-name.properties.message
+
+## Relationships
+
+1. One to One: When one document is connected exactly to one document in another collection. Example: User and Aadhaar card.
+
+2. One to many: When one document in a collection is connected to many documents in another collection. Example: User and Posts on social media
+
+3. Many to Many: When document in a collection can be linked to multiple document in another collection and vice versa. Example: teacher and students in a school, a teacher teaches multiple students and a student can study from various teachers
+
+## Various Types of One to Many Relationships
+
+1. One to few
+
+Example: Addresses stored in Shopping site by an user
+Store the child document inside the parent 
+
+2. One to many
+
+Example: A shop or restaurant database
+Store the reference to the child document inside parent
+
+To pass reference in mongoose, use 
+type: mongoose.Schema.Types.ObjectId
+ref: "model-name-to-be-refered"
+
+If we want to find the complete document instead of just the reference, we can use the populate method
+
+primary-collection/model.find({}).populate("foreign-collection/model");
+
+3. One to Squillions
+
+Opposide of case 2
+
+To pass the reference of parent in the child
+
