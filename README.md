@@ -336,12 +336,12 @@
 
 ## Various Types of One to Many Relationships
 
-1. One to few
+1. One to few (few 100s)
 
 Example: Addresses stored in Shopping site by an user
 Store the child document inside the parent 
 
-2. One to many
+2. One to many (few 1000s)
 
 Example: A shop or restaurant database
 Store the reference to the child document inside parent
@@ -354,7 +354,7 @@ If we want to find the complete document instead of just the reference, we can u
 
 primary-collection/model.find({}).populate("foreign-collection/model");
 
-3. One to Squillions
+3. One to Squillions (above 1000)
 
 Opposide of case 2
 
